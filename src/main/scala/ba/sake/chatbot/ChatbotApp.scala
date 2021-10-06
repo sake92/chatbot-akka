@@ -4,19 +4,29 @@ import akka.actor.typed.ActorSystem
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 import scala.io.StdIn
 
 object ChatbotApp extends App {
 
+  // setup server
   val server = ActorSystem(
     ChatbotServer(
       Map("Stack Builders" -> "https://stackbuilders.com", "Sakib" -> "https://sake.ba")
     ),
     "ChatbotServer"
   )
+  locally {
+    import server.executionContext
+    server.scheduler.scheduleAtFixedRate(Duration.Zero, 1.second) { () =>
+      server ! ChatbotServer.ExpireSessions
+    }
+  }
 
+  // setup client
   val client = ActorSystem(ChatbotClient("console-client", server), "ChatbotClient")
 
+  // loop interaction
   while (true) {
     println(s"""Please select one option
          |Q - quit
