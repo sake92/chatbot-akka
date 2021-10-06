@@ -3,7 +3,7 @@ package ba.sake.chatbot
 import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class ChatbotServerSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike {
+class ChatbotClientSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike {
 
   val clientName = "test-client"
   
