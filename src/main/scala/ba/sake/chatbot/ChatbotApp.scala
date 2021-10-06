@@ -7,10 +7,15 @@ import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
 object ChatbotApp extends App {
-  val server: ActorSystem[ChatbotServer.Message] = ActorSystem(ChatbotServer(), "ChatbotServer")
 
-  val client: ActorSystem[ChatbotClient.Message] =
-    ActorSystem(ChatbotClient("console-client", server), "ChatbotClient")
+  val server = ActorSystem(
+    ChatbotServer(
+      Map("Stack Builders" -> "https://stackbuilders.com", "Sakib" -> "https://sake.ba")
+    ),
+    "ChatbotServer"
+  )
+
+  val client = ActorSystem(ChatbotClient("console-client", server), "ChatbotClient")
 
   while (true) {
     println(s"""Please select one option

@@ -9,6 +9,7 @@ object ChatbotClient {
   case object DoLogout                      extends Message
   case class DoAnalyzeMessage(text: String) extends Message
   case class AnalyzedMessage(text: String)  extends Message
+  case class ErrorMessage(text: String)  extends Message
 
   def apply(name: String, server: ActorRef[ChatbotServer.Message]): Behavior[Message] =
     Behaviors.receive { (context, message) =>
@@ -24,6 +25,9 @@ object ChatbotClient {
           Behaviors.same
         case DoAnalyzeMessage(text) =>
           server ! ChatbotServer.AnalyzeMessage(context.self, text)
+          Behaviors.same
+        case ErrorMessage(msg) =>
+          context.log.warn(s"Got error response from server: $msg")
           Behaviors.same
       }
     }
