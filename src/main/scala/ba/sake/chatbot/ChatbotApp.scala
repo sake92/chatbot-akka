@@ -28,12 +28,12 @@ object ChatbotApp extends App {
 
   // loop interaction
   while (true) {
-    println(s"""Please select one option
+    print(s"""Please select one option:
          |Q - quit
          |R - register
          |L - logout
          |anything else - analyze message
-         |""".stripMargin)
+         |> """.stripMargin)
     StdIn.readLine().trim.toUpperCase match {
       case "Q" =>
         server.terminate()
