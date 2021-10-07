@@ -12,7 +12,7 @@ object ChatbotServer {
   case class ClientLogout(from: ActorRef[ChatbotClient.Message], name: String)   extends Message
 
   case class AnalyzeMessage(from: ActorRef[ChatbotClient.Message], text: String)
-      extends Message // TODO add msgId
+      extends Message // TODO add msgId to correlate request/response
   case object ExpireSessions extends Message
 
   private case class ClientData(
@@ -42,7 +42,7 @@ object ChatbotServer {
             Behaviors.same
           } else {
             val maybeLink = textMappings.find { case (key, _) =>
-              text.contains(key.toUpperCase)
+              text.toUpperCase.contains(key.toUpperCase) // ignore case
             }
             maybeLink.foreach { case (name, link) =>
               val msg = s"Here is more info about $name: $link"

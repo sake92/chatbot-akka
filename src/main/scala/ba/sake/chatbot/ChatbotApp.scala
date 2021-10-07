@@ -3,13 +3,13 @@ package ba.sake.chatbot
 import akka.actor.typed.ActorSystem
 
 import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.concurrent.duration._
+import scala.concurrent.duration.{Duration, _}
 import scala.io.StdIn
 
 object ChatbotApp extends App {
 
   // setup server
+  // TODO make this a remote actors, for more scalability..
   val server = ActorSystem(
     ChatbotServer(
       Map("Stack Builders" -> "https://stackbuilders.com", "Sakib" -> "https://sake.ba")
